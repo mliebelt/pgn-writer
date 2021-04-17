@@ -9,6 +9,8 @@ Provides base functionality (implemented in Javascript) to write PGN to a string
   1. Import a huge collection of PGN games (one file).
   1. Write info/warning/error messages on reading (not part of this library).
   1. Export those games (or a subset of it) in a standard format: This is what is provided by this library.
+  
+See the [annotated spec](https://github.com/mliebelt/pgn-spec-commented/blob/main/annotated/export.md) that should be sufficient for guiding the implementation.
     
 # Usage
 
