@@ -1,9 +1,10 @@
 let writer = require("../src/pgn-writer.js")
-let parser = require("@mliebelt/pgn-parser")
+let pgnReader = require('@mliebelt/pgn-reader').pgnReader
 let should = require('should')
 
+/* Utility function to have minimal test setup. Reads the input as usual, tests only the output then. */
 const parseWriteGame = function (input, config) {
-    let game = parser.parse(input, {startRule: "game"})
+    let game = pgnReader({ pgn: input})
     return writer.writeGame(game, config)
 }
 
@@ -18,9 +19,14 @@ describe("When writing one game only", function () {
         should.exist(res)
         should(res).equals("*")
     })
-    xit("should write some moves in the main line with move number indication", function () {
+    it("should write some moves in the main line with move number indication", function () {
         let res = parseWriteGame("e4 e5 Nf3 Nc6 Bb5 a6")
         should.exist(res)
         should(res).equals("1. e4 e5 2. Nf3 Nc6 3. Bb5 a6")
+    })
+    it ("should write comments in standard format", function () {
+        let res = parseWriteGame("e4    { comment1 with some words} {comment2 with more words}")
+        should.exist(res)
+        should(res).equals("1. e4 { comment1 with some words comment2 with more words}")
     })
 })

@@ -22,7 +22,7 @@ const writePgn = function(game) {
     }
 
     const getMove = function (index) {
-        return game.moves[index]
+        return game.getMove(index)
     }
 
     // Prepend a space if necessary
@@ -152,9 +152,9 @@ const writePgn = function(game) {
     }
 
     const writeEndGame = function(_sb) {
-        if (game.endGame) {
+        if (game.getEndGame()) {
             prependSpace(_sb)
-            _sb.append(game.endGame)
+            _sb.append(game.getEndGame())
         }
     }
 
@@ -165,15 +165,8 @@ const writePgn = function(game) {
         return _sb.toString()
     }
 
-    const remindEndGame = function(movesMainLine) {
-        if (typeof movesMainLine[movesMainLine.length - 1] === "string") {
-            game.endGame = movesMainLine.pop();
-        }
-    }
-
     const sb = StringBuilder("")
     let indexFirstMove = 0
-    remindEndGame(game.moves)
     return writePgn2(getMove(indexFirstMove), sb)
 }
 
