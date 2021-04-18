@@ -1,0 +1,33 @@
+{
+  "name": "@mliebelt/pgn-writer",
+  "description": "A PEG writer to write PGN (Portable Game Notation) notation.",
+  "keywords": [
+    "chess",
+    "pgn",
+    "peg",
+    "export",
+    "writer"
+  ],
+  "version": "0.9.0",
+  "homepage": "https://github.com/mliebelt/pgn-writer/blob/master/README.md",
+  "bugs": "https://github.com/mliebelt/pgn-writer/issues",
+  "main": "pgn-writer.js",
+  "files": [
+    "README.md"
+  ],
+  "author": "mliebelt",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mliebelt/pgn-writer.git"
+  },
+  "devDependencies": {
+    "@mliebelt/pgn-parser": "^1.2.6",
+    "mocha": "^8.0.1",
+    "should": "^13.2.3"
+  },
+  "scripts": {
+    "test": "mocha",
+    "test-interactive": "mocha -w"
+  }
+}
