@@ -14,12 +14,12 @@ See the [annotated spec](https://github.com/mliebelt/pgn-spec-commented/blob/mai
     
 # Usage
 
-The following is pseudo-code, there is no implementation yet ...
+The following is pseudo-code, the interface is not defined completely and will change in the future ...
 
 ```
-import {pgnReader} from '@mliebelt/pgn-reader'
+import {pgnReader} from '@mliebelt/pgn-reader'.pgnReader
 import {pgnWriter} from '@mliebelt/pgn-writer'
 
-let games = pgnReader({ config1: 'param', ... }).getGames()
-let writer = pgnWriter(games, { config2: 'param', ... })
-writer.export({ mode: 'onlyPgn' })
+let game = pgnReader({ pgn: '1. e4 *', ... })
+let resultPGN = pgnWriter.writeGame(game, { config2: 'param', ... })
+```
