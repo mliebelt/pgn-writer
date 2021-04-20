@@ -22,7 +22,7 @@
     "url": "https://github.com/mliebelt/pgn-writer.git"
   },
   "devDependencies": {
-    "@mliebelt/pgn-reader": "^1.2.4",
+    "@mliebelt/pgn-reader": "1.2.5",
     "mocha": "^8.0.1",
     "should": "^13.2.3"
   },

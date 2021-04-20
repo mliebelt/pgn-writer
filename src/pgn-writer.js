@@ -13,12 +13,12 @@ const writeGame = function(input, configuration) {
  */
 const writePgn = function(game) {
     function getGameComment() {
-        return game.gameComment ? game.gameComment.comment : undefined
+        return game.getGameComment() ? game.getGameComment() : undefined
     }
 
     const startVariation = function(move) {
         return  move.variationLevel > 0 &&
-            ( (typeof move.prev != "number") || (getMoves()[move.prev].next !== move.index));
+            ( (typeof move.prev != "number") || (game.getMoves()[move.prev].next !== move.index));
     }
 
     const getMove = function (index) {
@@ -27,7 +27,7 @@ const writePgn = function(game) {
 
     // Prepend a space if necessary
     function prependSpace(sb) {
-        if ( (!sb.isEmpty()) && (sb.lastChar() !== " ")) {
+        if ( (!sb.isEmpty()) && (sb.lastChar() !== " ") && (sb.lastChar() !== "\n")) {
             sb.append(" ")
         }
     }
@@ -158,8 +158,23 @@ const writePgn = function(game) {
         }
     }
 
+    function writeTags(sb) {
+        function writeTag(key, value, _sb) {
+            _sb.append('[').append(key).append(' ').append('"').append(value).append('"').append("]\n")
+        }
+
+        if(game.getTags().size > 0) {
+            let _tags = new Map([...game.getTags().entries()].sort())
+            _tags.forEach(function (value, key) {
+                writeTag(key, value, sb)
+            })
+            sb.append("\n")
+        }
+    }
+
     const writePgn2 = function(move, _sb) {
-        writeGameComment(sb)
+        writeTags(_sb)
+        writeGameComment(_sb)
         writeMove(move, _sb)
         writeEndGame(_sb)
         return _sb.toString()
@@ -180,6 +195,7 @@ function StringBuilder(value) {
         if (value) {
             that.strings.push(value)
         }
+        return this
     }
 
     // Return true if the receiver is empty. Don't compute length!!
