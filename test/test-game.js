@@ -37,12 +37,17 @@ describe("When writing one game only", function () {
     it("should write tags in standard format with whitespace in between", function () {
         let res = parseWriteGame(' [ White    "Me"   ]  [  Black  "Magnus"   ] 1. e4')
         should.exist(res)
-        should(res).equals('[Black "Magnus"]\n[White "Me"]\n\n1. e4')
+        should(res).equals('[White "Me"]\n[Black "Magnus"]\n\n1. e4')
     })
     it("should write tags in standard format", function () {
         let res = parseWriteGame('[White "Me"][Black "Magnus"] 1. e4')
         should.exist(res)
-        should(res).equals('[Black "Magnus"]\n[White "Me"]\n\n1. e4')
+        should(res).equals('[White "Me"]\n[Black "Magnus"]\n\n1. e4')
+    })
+    it("should write  7 roster tag the right order", function () {
+        let res = parseWriteGame('[White "Me"][Black "Magnus"][Date "????.??.??"] 1. e4')
+        should.exist(res)
+        should(res).equals('[Date "????.??.??"]\n[White "Me"]\n[Black "Magnus"]\n\n1. e4')
     })
     it("should write game comment", function () {
         let res = parseWriteGame('{Comment before first move} 1. e4 e5')

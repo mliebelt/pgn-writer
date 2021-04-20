@@ -160,11 +160,27 @@ const writePgn = function(game) {
 
     function writeTags(sb) {
         function writeTag(key, value, _sb) {
-            _sb.append('[').append(key).append(' ').append('"').append(value).append('"').append("]\n")
+            if (value) {
+                let _v = null
+                if (typeof value === "string") {
+                    if (value.length > 0) {
+                        _v = value
+                    } else { return }
+                } else if (typeof value === "object") {
+                    _v = value.value
+                }
+                _sb.append('[').append(key).append(' ').append('"').append(_v).append('"').append("]\n")
+            }
+        }
+        function consumeTag(key, tags, _sb) {
+            writeTag(key, tags.get(key), _sb)
+            tags.delete(key)
         }
 
         if(game.getTags().size > 0) {
             let _tags = new Map([...game.getTags().entries()].sort())
+            "Event Site Date Round White Black Result".split(' ').forEach(
+                value => consumeTag(value, _tags, sb))
             _tags.forEach(function (value, key) {
                 writeTag(key, value, sb)
             })
