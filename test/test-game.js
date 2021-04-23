@@ -69,4 +69,17 @@ describe("When writing one game only", function () {
         should.exist(res)
         should(res).equals('1. e4$1 e5$2 2. Nf3$3 Nc6$4 1-0')
     })
+    it ("should read position and have correct move number then", function () {
+        let res = parseWriteGame('[FEN "rn3rk1/1b2qppp/p3p3/1pn1P3/3N1PQ1/1BN5/PP4PP/R4RK1 w - - 0 15"]\n' +
+            '[SetUp "1"]\n\n f5 Kh8?? f6 gxf6 exf6 { Black resigns. } 1-0')
+        should.exist(res)
+        should(res).equals('[FEN "rn3rk1/1b2qppp/p3p3/1pn1P3/3N1PQ1/1BN5/PP4PP/R4RK1 w - - 0 15"]\n' +
+            '[SetUp "1"]\n\n15. f5 Kh8$4 16. f6 gxf6 17. exf6 { Black resigns. } 1-0')
+    })
+    it("should have header mapped to FEN", function() {
+        let res = parseWriteGame('[SetUp "1"] [FEN "8/p6p/P5p1/8/4p1K1/6q1/5k2/8 w - - 12 57"] *')
+        should.exist(res)
+        should(res).equals('[FEN "8/p6p/P5p1/8/4p1K1/6q1/5k2/8 w - - 12 57"]\n[SetUp "1"]\n\n*')
+    });
+
 })
