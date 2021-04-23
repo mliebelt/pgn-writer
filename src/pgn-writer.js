@@ -21,6 +21,10 @@ const writePgn = function(game) {
             ( (typeof move.prev != "number") || (game.getMoves()[move.prev].next !== move.index));
     }
 
+    const firstMove = function (move) {
+        return typeof move.prev != "number"
+    }
+
     const getMove = function (index) {
         return game.getMove(index)
     }
@@ -91,7 +95,7 @@ const writePgn = function(game) {
         if (move.turn === "w") {
             sb.append("" + move.moveNumber)
             sb.append(".")
-        } else if (startVariation(move)) {
+        } else if (firstMove(move) || startVariation(move)) {
             sb.append("" + move.moveNumber)
             sb.append("...")
         }

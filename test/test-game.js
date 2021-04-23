@@ -81,5 +81,10 @@ describe("When writing one game only", function () {
         should.exist(res)
         should(res).equals('[FEN "8/p6p/P5p1/8/4p1K1/6q1/5k2/8 w - - 12 57"]\n[SetUp "1"]\n\n*')
     });
+    it("should have first black move correctly written including move number", function() {
+        let res = parseWriteGame('[SetUp "1"] [FEN "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1"] d5 d4')
+        should.exist(res)
+        should(res).equals('[FEN "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1"]\n[SetUp "1"]\n\n1... d5 2. d4')
+    });
 
 })
