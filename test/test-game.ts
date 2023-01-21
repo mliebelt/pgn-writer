@@ -1,9 +1,9 @@
 const should = require('chai').should()
-let writer = require("../src/pgn-writer.js")
+let writer = require("../src/pgn-writer.ts")
 let pgnReader = require('@mliebelt/pgn-reader').pgnReader
 
 /* Utility function to have minimal test setup. Reads the input as usual, tests only the output then. */
-const parseWriteGame = function (input, config) {
+const parseWriteGame = function (input, config?:any) {
     let game = pgnReader({ pgn: input})
     return writer.writeGame(game, config)
 }

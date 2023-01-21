@@ -1,6 +1,9 @@
-const writeGame = function(input, configuration) {
+import {GameComment, PgnReaderMove} from "./types";
+
+export const writeGame = function(input, configuration) {
     return writePgn(input)
 }
+
 
 /**
  * Writes the pgn (fully) of the current game. The algorithm goes like that:
@@ -12,20 +15,20 @@ const writeGame = function(input, configuration) {
  * @return the string of all moves
  */
 const writePgn = function(game) {
-    function getGameComment() {
+    function getGameComment():any {
         return game.getGameComment() ? game.getGameComment() : undefined
     }
 
-    const startVariation = function(move) {
+    const startVariation = function(move):boolean {
         return  move.variationLevel > 0 &&
             ( (typeof move.prev != "number") || (game.getMoves()[move.prev].next !== move.index));
     }
 
-    const firstMove = function (move) {
+    const firstMove = function (move):boolean {
         return typeof move.prev != "number"
     }
 
-    const getMove = function (index) {
+    const getMove = function (index):PgnReaderMove {
         return game.getMove(index)
     }
 
@@ -36,7 +39,7 @@ const writePgn = function(game) {
         }
     }
 
-    const writeComment = function(comment, sb) {
+    const writeComment = function(comment:string|undefined|null, sb) {
         if (comment === undefined || comment === null) {
             return
         }
@@ -50,15 +53,15 @@ const writePgn = function(game) {
         writeComment(getGameComment(), sb)
     }
 
-    const writeCommentMove = function(move, sb) {
+    const writeCommentMove = function(move:PgnReaderMove, sb) {
         writeComment(move.commentMove, sb)
     }
 
-    const writeCommentAfter = function(move, sb) {
+    const writeCommentAfter = function(move:PgnReaderMove, sb) {
         writeComment(move.commentAfter, sb)
     }
 
-    const writeCommentDiag = function(move, sb) {
+    const writeCommentDiag = function(move:PgnReaderMove, sb) {
         let has_diags = (move) => {
             return move.commentDiag &&
                 ( ( move.commentDiag.colorArrows && move.commentDiag.colorArrows.length > 0 ) ||
@@ -69,7 +72,7 @@ const writePgn = function(game) {
         let fields = (move) => { return move.commentDiag.colorFields || [] }
 
         if (has_diags(move)) {
-            let sbdiags = StringBuilder("")
+            let sbdiags = new StringBuilder()
             let first = true
             sbdiags.append("[%csl ")
             fields(move).forEach( (field) => {
@@ -90,7 +93,7 @@ const writePgn = function(game) {
         }
     }
 
-    const writeMoveNumber = function (move, sb) {
+    const writeMoveNumber = function (move:PgnReaderMove, sb) {
         prependSpace(sb)
         if (move.turn === "w") {
             sb.append("" + move.moveNumber)
@@ -101,12 +104,12 @@ const writePgn = function(game) {
         }
     }
 
-    const writeNotation = function (move, sb) {
+    const writeNotation = function (move:PgnReaderMove, sb) {
         prependSpace(sb)
         sb.append(move.notation.notation)
     }
 
-    const writeNAGs = function(move, sb) {
+    const writeNAGs = function(move:PgnReaderMove, sb) {
         if (move.nag) {
             move.nag.forEach(function(ele) {
                 sb.append(ele)
@@ -114,7 +117,7 @@ const writePgn = function(game) {
         }
     }
 
-    const writeVariation = function (move, sb) {
+    const writeVariation = function (move:PgnReaderMove, sb) {
         prependSpace(sb)
         sb.append("(")
         writeMove(move, sb)
@@ -122,13 +125,13 @@ const writePgn = function(game) {
         sb.append(")")
     }
 
-    const writeVariations = function (move, sb) {
+    const writeVariations = function (move:PgnReaderMove, sb) {
         for (let i = 0; i < move.variations.length; i++) {
             writeVariation(move.variations[i], sb)
         }
     }
 
-    const getNextMove = function (move) {
+    const getNextMove = function (move:PgnReaderMove) {
         return move.next ? getMove(move.next) : null
     }
 
@@ -139,7 +142,7 @@ const writePgn = function(game) {
      * @param move the move in the exploded format
      * @param sb the string builder to use
      */
-    const writeMove = function(move, sb) {
+    const writeMove = function(move:PgnReaderMove|undefined|null, sb) {
         if (move === null || move === undefined) {
             return
         }
@@ -155,17 +158,17 @@ const writePgn = function(game) {
         writeMove(next, sb)
     }
 
-    const writeEndGame = function(_sb) {
+    const writeEndGame = function(sb) {
         if (game.getEndGame()) {
-            prependSpace(_sb)
-            _sb.append(game.getEndGame())
+            prependSpace(sb)
+            sb.append(game.getEndGame())
         }
     }
 
     function writeTags(sb) {
         function writeTag(key, value, _sb) {
             if (value) {
-                let _v = null
+                let _v
                 if (typeof value === "string") {
                     if (value.length > 0) {
                         _v = value
@@ -192,36 +195,35 @@ const writePgn = function(game) {
         }
     }
 
-    const writePgn2 = function(move, _sb) {
-        writeTags(_sb)
-        writeGameComment(_sb)
-        writeMove(move, _sb)
-        writeEndGame(_sb)
-        return _sb.toString()
+    const writePgn2 = function(move:PgnReaderMove, sb) {
+        writeTags(sb)
+        writeGameComment(sb)
+        writeMove(move, sb)
+        writeEndGame(sb)
+        return sb.toString()
     }
 
-    const sb = StringBuilder("")
+    const sb = new StringBuilder()
     let indexFirstMove = 0
     return writePgn2(getMove(indexFirstMove), sb)
 }
 
 // Initializes a new instance of the StringBuilder class
 // and appends the given value if supplied
-function StringBuilder(value) {
-    let that = {}
-    that.strings = new Array("")
+class StringBuilder {
+    strings: string[] = new Array("")
     // Appends the given value to the end of this instance.
-    let append = function (value) {
+    append(value: string):StringBuilder {
         if (value) {
-            that.strings.push(value)
+            this.strings.push(value)
         }
         return this
     }
 
     // Return true if the receiver is empty. Don't compute length!!
-    let isEmpty = function () {
-        for (let i = 0; i < that.strings.length; i++) {
-            if (that.strings[i].length > 0) {
+    isEmpty():boolean {
+        for (let i = 0; i < this.strings.length; i++) {
+            if (this.strings[i].length > 0) {
                 return false
             }
         }
@@ -230,28 +232,16 @@ function StringBuilder(value) {
 
     // Return the last character (as string) of the receiver.
     // Return null if none is found
-    let lastChar = function () {
-        if (that.strings.length === 0) {
+    lastChar():string|null {
+        if (this.strings.length === 0) {
             return null
         }
-        return that.strings[that.strings.length - 1].slice(-1)
+        return this.strings[this.strings.length - 1].slice(-1)
     }
 
     // Converts this instance to a String.
-    let toString = function () {
-        return that.strings.join("")
+    toString() {
+        return this.strings.join("")
     }
 
-    append(value)
-
-    return {
-        append: append,
-        toString: toString,
-        isEmpty: isEmpty,
-        lastChar: lastChar
-    }
-}
-
-module.exports = {
-    writeGame: writeGame
 }

@@ -11,7 +11,9 @@
   "version": "0.9.0",
   "homepage": "https://github.com/mliebelt/pgn-writer/blob/master/README.md",
   "bugs": "https://github.com/mliebelt/pgn-writer/issues",
-  "main": "pgn-writer.js",
+  "main": "lib/index.umd.js",
+  "module": "lib/index.umd.js",
+  "types": "lib/index.umd.d.ts",
   "files": [
     "README.md"
   ],
@@ -22,14 +24,26 @@
     "url": "https://github.com/mliebelt/pgn-writer.git"
   },
   "devDependencies": {
-    "chai": "^4.3.7",
     "@mliebelt/pgn-reader": "1.2.5",
-    "mocha": "^10.2.0",
+    "@rollup/plugin-commonjs": "^23.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.0",
+    "rollup-plugin-dts": "^4.1.0",
     "@types/chai": "^4.3.4",
-    "@types/mocha": "^10.0.1"
+    "@types/mocha": "^10.0.1",
+    "chai": "^4.3.7",
+    "mocha": "^10.2.0",
+    "rollup": "^2.59.0",
+    "ts-loader": "^9.2.6",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.4.4"
   },
   "scripts": {
-    "test": "mocha",
-    "test-interactive": "mocha -w"
+    "clean": "rm -fr lib/*",
+    "build": "npm run clean && npm run mjs && npm run umd && npm run dts",
+    "mjs": "tsc -p tsconfig-mjs.json",
+    "cjs": "tsc -p tsconfig.json",
+    "umd": "rollup lib/mjs/index.js -c rollup.config.js -o lib/index.umd.js -f umd",
+    "dts": "rollup -c rollup.config-dts.js",
+    "test": "mocha --require ts-node/register ./test/**/*.ts"
   }
 }
