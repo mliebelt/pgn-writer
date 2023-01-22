@@ -9,6 +9,7 @@ Provides base functionality (implemented in Javascript) to write PGN to a string
   1. Import a huge collection of PGN games (one file).
   1. Write info/warning/error messages on reading (not part of this library).
   1. Export those games (or a subset of it) in a standard format: This is what is provided by this library.
+  1. Allow variants in writing: strip tags; strip variants; strip kind of comments (arrows and circles, time comments, ...); strip NAGs; use a different language for export (by giving the locale)
   
 See the [annotated spec](https://github.com/mliebelt/pgn-spec-commented/blob/main/annotated/export.md) that should be sufficient for guiding the implementation.
     
