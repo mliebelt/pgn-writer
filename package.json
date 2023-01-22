@@ -24,7 +24,7 @@
     "url": "https://github.com/mliebelt/pgn-writer.git"
   },
   "devDependencies": {
-    "@mliebelt/pgn-reader": "1.2.5",
+    "@mliebelt/pgn-reader": "1.2.16",
     "@rollup/plugin-commonjs": "^23.0.0",
     "@rollup/plugin-node-resolve": "^15.0.0",
     "@types/chai": "^4.3.4",
