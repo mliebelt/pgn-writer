@@ -25,7 +25,7 @@
   },
   "devDependencies": {
     "@mliebelt/pgn-reader": "1.2.16",
-    "@rollup/plugin-commonjs": "^23.0.0",
+    "@rollup/plugin-commonjs": "^24.0.1",
     "@rollup/plugin-node-resolve": "^15.0.0",
     "@types/chai": "^4.3.4",
     "@types/mocha": "^10.0.1",
