@@ -19,6 +19,11 @@ export type Field = 'a0' | `${File}${Rank}`
 export type GameComment = { comment?: string, colorArrows?: string[], colorFields?: string[], clk?: string, eval?: string }
 export type Color = 'w' | 'b'
 
+export type ConfigurationTagsValues = "no" | "7r" | "known" | "all"
+export type PgnWriterConfiguration = {
+    tags?: ConfigurationTagsValues
+}
+
 export type PgnReaderMove = {
     drawOffer?: boolean;
     moveNumber?: number,

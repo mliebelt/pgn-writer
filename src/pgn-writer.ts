@@ -1,7 +1,7 @@
-import {GameComment, PgnReaderMove} from "./types";
+import {GameComment, PgnReaderMove, PgnWriterConfiguration} from "./types";
 
-export const writeGame = function(input, configuration) {
-    return writePgn(input)
+export const writeGame = function(input, configuration:PgnWriterConfiguration = {}) {
+    return writePgn(input, configuration)
 }
 
 
@@ -14,9 +14,9 @@ export const writeGame = function(input, configuration) {
  * * then the next move of the main line
  * @return the string of all moves
  */
-const writePgn = function(game) {
-    function getGameComment():any {
-        return game.getGameComment() ? game.getGameComment() : undefined
+const writePgn = function(game, configuration:PgnWriterConfiguration) {
+    function getGameComment():string|undefined {
+        return game.getGameComment() ? game.getGameComment().comment : undefined
     }
 
     const startVariation = function(move):boolean {
@@ -184,8 +184,12 @@ const writePgn = function(game) {
             tags.delete(key)
         }
 
+        if (configuration.tags && (configuration.tags == "no")) {
+            return
+        }
         if(game.getTags().size > 0) {
             let _tags = new Map([...game.getTags().entries()].sort())
+            _tags.delete("messages")    // workaround for internal working of pgn-parser
             "Event Site Date Round White Black Result".split(' ').forEach(
                 value => consumeTag(value, _tags, sb))
             _tags.forEach(function (value, key) {
