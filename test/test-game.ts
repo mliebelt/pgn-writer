@@ -1,19 +1,20 @@
 const should = require('chai').should()
-let writer = require("../src/pgn-writer.ts")
-import {PgnReader} from "@mliebelt/pgn-reader";
-import { PgnWriterConfiguration} from "../src";
-
-let pgnReader = require('@mliebelt/pgn-reader').pgnReader
+import { writeGame } from "../src"
+import { PgnReader} from "@mliebelt/pgn-reader";
+import { PgnWriterConfiguration, PgnGame} from "../src";
 
 /* Utility function to have minimal test setup. Reads the input as usual, tests only the output then. */
 const parseWriteGame = function (input, config?:any) {
-    let game = new PgnReader({ pgn: input})
-    return writer.writeGame(game, config)
+    let reader = new PgnReader({ pgn: input})
+    let game:PgnGame = Object.assign({}, reader.games[0], { moves: reader.getMoves()}) as PgnGame
+    // game.moves = reader.getMoves()
+    return writeGame(game, config)
 }
 const parseWriteGameNoTags = function (input, config?:any) {
-    let game = new PgnReader({ pgn: input})
+    let reader = new PgnReader({ pgn: input})
+    let game = Object.assign({}, reader.games[0], { moves: reader.getMoves()}) as PgnGame
     let noTags:PgnWriterConfiguration = { tags: "no"}
-    return writer.writeGame(game, {...config, ...noTags})
+    return writeGame(game, {...config, ...noTags})
 }
 
 describe("When writing one game only", function () {
@@ -87,12 +88,12 @@ describe("When writing one game only", function () {
     it("should have header mapped to FEN", function() {
         let res = parseWriteGame('[SetUp "1"] [FEN "8/p6p/P5p1/8/4p1K1/6q1/5k2/8 w - - 12 57"] *')
         should.exist(res)
-        should.equal(res, '[Result "*"]\n[FEN "8/p6p/P5p1/8/4p1K1/6q1/5k2/8 w - - 12 57"]\n[SetUp "1"]\n\n*')
+        should.equal(res, '[Result "*"]\n[SetUp "1"]\n[FEN "8/p6p/P5p1/8/4p1K1/6q1/5k2/8 w - - 12 57"]\n\n*')
     });
     it("should have first black move correctly written including move number", function() {
         let res = parseWriteGame('[SetUp "1"] [FEN "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1"] d5 d4')
         should.exist(res)
-        should.equal(res, '[FEN "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1"]\n[SetUp "1"]\n\n1... d5 2. d4')
+        should.equal(res, '[SetUp "1"]\n[FEN "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1"]\n\n1... d5 2. d4')
     });
 
 })

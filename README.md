@@ -15,12 +15,12 @@ See the [annotated spec](https://github.com/mliebelt/pgn-spec-commented/blob/mai
     
 # Usage
 
-The following is pseudo-code, the interface is not defined completely and will change in the future ...
+The following is pseudo-code, the interface is not defined completely and will change in the future. But I moved the source to typescript, and have added type annotations where necessary. Look at the annotations `PgnGame` and `PgnWriterConfiguation` which are currently the only arguments to the main function. The function `getGame(<index>)` of pgn-reader not yet exists, but will be added in the next version.
 
 ```
-import {pgnReader} from '@mliebelt/pgn-reader'.pgnReader
+import {PgnReader} from '@mliebelt/pgn-reader'
 import {pgnWriter} from '@mliebelt/pgn-writer'
 
-let game = pgnReader({ pgn: '1. e4 *', ... })
+let game = new PgnReader({ pgn: '1. e4 *', ... }).getGame(0)
 let resultPGN = pgnWriter.writeGame(game, { config2: 'param', ... })
 ```

@@ -43,3 +43,12 @@ export type PgnReaderMove = {
     next?: number,
     variationLevel?: number
 }
+
+export type SevenRoosterTagKeys = 'Event'|'Site'|'Round'|'White'|'Black'|'Result|Date'
+export type Tags = { string: string }
+
+export type PgnGame = {
+    tags?: Tags,
+    gameComment?: GameComment,
+    moves: PgnReaderMove[]
+}

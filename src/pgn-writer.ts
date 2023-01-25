@@ -1,7 +1,7 @@
-import {GameComment, PgnReaderMove, PgnWriterConfiguration} from "./types";
+import {PgnGame, PgnReaderMove, PgnWriterConfiguration} from "./types";
 
-export const writeGame = function(input, configuration:PgnWriterConfiguration = {}) {
-    return writePgn(input, configuration)
+export const writeGame = function(game:PgnGame, configuration:PgnWriterConfiguration = {}) {
+    return writePgn(game, configuration)
 }
 
 
@@ -14,14 +14,14 @@ export const writeGame = function(input, configuration:PgnWriterConfiguration = 
  * * then the next move of the main line
  * @return the string of all moves
  */
-const writePgn = function(game, configuration:PgnWriterConfiguration) {
-    function getGameComment():string|undefined {
-        return game.getGameComment() ? game.getGameComment().comment : undefined
+const writePgn = function(game:PgnGame, configuration:PgnWriterConfiguration) {
+    function getGameComment(game:PgnGame):string|undefined {
+        return game.gameComment ? game.gameComment.comment : undefined
     }
 
-    const startVariation = function(move):boolean {
-        return  move.variationLevel > 0 &&
-            ( (typeof move.prev != "number") || (game.getMoves()[move.prev].next !== move.index));
+    const startVariation = function(move:PgnReaderMove):boolean {
+        return  move.variationLevel !== undefined && move.variationLevel > 0 &&
+            ( (typeof move.prev != "number") || (game.moves[move.prev].next !== move.index));
     }
 
     const firstMove = function (move):boolean {
@@ -29,7 +29,7 @@ const writePgn = function(game, configuration:PgnWriterConfiguration) {
     }
 
     const getMove = function (index):PgnReaderMove {
-        return game.getMove(index)
+        return game.moves[index]
     }
 
     // Prepend a space if necessary
@@ -49,8 +49,8 @@ const writePgn = function(game, configuration:PgnWriterConfiguration) {
         sb.append("}")
     }
 
-    const writeGameComment = function (sb) {
-        writeComment(getGameComment(), sb)
+    const writeGameComment = function (game, sb) {
+        writeComment(getGameComment(game), sb)
     }
 
     const writeCommentMove = function(move:PgnReaderMove, sb) {
@@ -158,14 +158,14 @@ const writePgn = function(game, configuration:PgnWriterConfiguration) {
         writeMove(next, sb)
     }
 
-    const writeEndGame = function(sb) {
-        if (game.getEndGame()) {
+    const writeEndGame = function(game:PgnGame, sb) {
+        if ( (game.tags !== undefined) && ('Result' in game.tags) ) {
             prependSpace(sb)
-            sb.append(game.getEndGame())
+            sb.append(game.tags['Result'])
         }
     }
 
-    function writeTags(sb) {
+    function writeTags(game, sb) {
         function writeTag(key, value, _sb) {
             if (value) {
                 let _v
@@ -187,8 +187,8 @@ const writePgn = function(game, configuration:PgnWriterConfiguration) {
         if (configuration.tags && (configuration.tags == "no")) {
             return
         }
-        if(game.getTags().size > 0) {
-            let _tags = new Map([...game.getTags().entries()].sort())
+        if ((game.tags) && (Object.keys(game.tags).length)) {
+            let _tags:Map<string, any> = new Map(Object.entries(game.tags))
             _tags.delete("messages")    // workaround for internal working of pgn-parser
             "Event Site Date Round White Black Result".split(' ').forEach(
                 value => consumeTag(value, _tags, sb))
@@ -199,17 +199,17 @@ const writePgn = function(game, configuration:PgnWriterConfiguration) {
         }
     }
 
-    const writePgn2 = function(move:PgnReaderMove, sb) {
-        writeTags(sb)
-        writeGameComment(sb)
+    const writePgn2 = function(game:PgnGame, move:PgnReaderMove, sb) {
+        writeTags(game, sb)
+        writeGameComment(game, sb)
         writeMove(move, sb)
-        writeEndGame(sb)
+        writeEndGame(game, sb)
         return sb.toString()
     }
 
     const sb = new StringBuilder()
     let indexFirstMove = 0
-    return writePgn2(getMove(indexFirstMove), sb)
+    return writePgn2(game, getMove(indexFirstMove), sb)
 }
 
 // Initializes a new instance of the StringBuilder class
