@@ -19,8 +19,8 @@ The following is pseudo-code, the interface is not defined completely and will c
 
 ```
 import {PgnReader} from '@mliebelt/pgn-reader'
-import {pgnWriter} from '@mliebelt/pgn-writer'
+import {writeGame} from '@mliebelt/pgn-writer'
 
 let game = new PgnReader({ pgn: '1. e4 *', ... }).getGame(0)
-let resultPGN = pgnWriter.writeGame(game, { config2: 'param', ... })
+let resultPGN = writeGame(game, { config2: 'param', ... })
 ```
