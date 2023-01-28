@@ -105,8 +105,33 @@ const writePgn = function(game:PgnGame, configuration:PgnWriterConfiguration) {
     }
 
     const writeNotation = function (move:PgnReaderMove, sb) {
+        function san(move: PgnReaderMove): string {
+            function getFig (fig: string) {
+                if (fig === 'P') {
+                    return ''
+                }
+                return fig
+            }
+            let notation = move.notation;
+            if (typeof notation.row === 'undefined') {
+                return notation.notation; // move like O-O and O-O-O
+            }
+            const fig = notation.fig ? getFig(notation.fig) : ''
+            let disc = notation.disc ? notation.disc : ''
+            const strike = notation.strike ? notation.strike : ''
+            // Pawn moves with capture need the col as "discriminator"
+            if (strike && !fig) { // Pawn capture
+                disc = move.from.substring(0,1)
+            }
+            const check = notation.check ? notation.check : ''
+            const prom = notation.promotion ? '=' + getFig(notation.promotion.substring(1,2)) : ''
+            if (configuration.notation === 'long') {
+                return fig + move.from + (notation.strike ? strike : '-') + move.to + prom + check
+            }
+            return fig + disc + strike + notation.col + notation.row + prom + check
+        }
         prependSpace(sb)
-        sb.append(move.notation.notation)
+        sb.append(san(move))
     }
 
     const writeNAGs = function(move:PgnReaderMove, sb) {

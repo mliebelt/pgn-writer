@@ -21,7 +21,8 @@ export type Color = 'w' | 'b'
 
 export type ConfigurationTagsValues = "no" | "7r" | "known" | "all"
 export type PgnWriterConfiguration = {
-    tags?: ConfigurationTagsValues
+    tags?: ConfigurationTagsValues,
+    notation?: string
 }
 
 export type PgnReaderMove = {

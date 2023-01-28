@@ -104,6 +104,7 @@ describe("When writing results of games", function () {
         should.exist(res)
         should.equal(res, '*')
     })
+    // Don't understand why only here the result is not included
     xit("should write result for simple game", function (){
         let res = parseWriteGameNoTags('e4 e5')
         should.equal(res, '1. e4 e5 *')
@@ -115,5 +116,16 @@ describe("When writing results of games", function () {
     it("should add end game string if pgn contains the result", function () {
         let res = parseWriteGameNoTags('e4 e5 1-0')
         should.equal(res, '1. e4 e5 1-0')
+    })
+})
+
+describe("When using different configuration", function () {
+    it("should write long notation if requested", function (){
+        let reader = new PgnReader({ pgn: 'e4 e5 Nf3 Nc6'})
+        let game:PgnGame = Object.assign({}, reader.games[0], { moves: reader.getMoves()}) as PgnGame
+        let noTags:PgnWriterConfiguration = { tags: "no"}
+        noTags.notation = "long"
+        let res = writeGame(game, noTags)
+        should.equal(res, '1. e2-e4 e7-e5 2. Ng1-f3 Nb8-c6')
     })
 })
