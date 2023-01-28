@@ -214,12 +214,17 @@ const writePgn = function(game:PgnGame, configuration:PgnWriterConfiguration) {
 
 // Initializes a new instance of the StringBuilder class
 // and appends the given value if supplied
-class StringBuilder {
+export class StringBuilder {
     strings: string[] = new Array("")
+    constructor(value: string = "") {
+        this.append(value)
+    }
     // Appends the given value to the end of this instance.
-    append(value: string):StringBuilder {
-        if (value) {
+    append(value: string|any):StringBuilder {
+        if (typeof value === "string") {
             this.strings.push(value)
+        } else {
+            this.strings.push(value.toString())
         }
         return this
     }

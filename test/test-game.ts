@@ -97,3 +97,23 @@ describe("When writing one game only", function () {
     });
 
 })
+
+describe("When writing results of games", function () {
+    it("should write result for empty game", function (){
+        let res = parseWriteGameNoTags('')
+        should.exist(res)
+        should.equal(res, '*')
+    })
+    xit("should write result for simple game", function (){
+        let res = parseWriteGameNoTags('e4 e5')
+        should.equal(res, '1. e4 e5 *')
+    })
+    it("should add end game string if tag 'Result' is set", function () {
+        let res = parseWriteGameNoTags('[Result "1-0"] e4 e5')
+        should.equal(res, '1. e4 e5 1-0')
+    })
+    it("should add end game string if pgn contains the result", function () {
+        let res = parseWriteGameNoTags('e4 e5 1-0')
+        should.equal(res, '1. e4 e5 1-0')
+    })
+})

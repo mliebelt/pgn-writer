@@ -8,7 +8,7 @@
     "export",
     "writer"
   ],
-  "version": "1.0.0",
+  "version": "1.0.1",
   "homepage": "https://github.com/mliebelt/pgn-writer/blob/master/README.md",
   "bugs": "https://github.com/mliebelt/pgn-writer/issues",
   "main": "lib/index.umd.js",
@@ -22,6 +22,9 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/mliebelt/pgn-writer.git"
+  },
+  "dependencies": {
+    "@mliebelt/pgn-types": "^1.0.3"
   },
   "devDependencies": {
     "@mliebelt/pgn-reader": "1.2.16",
