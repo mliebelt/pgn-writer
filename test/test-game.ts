@@ -1,3 +1,5 @@
+import {describe} from "mocha";
+
 const should = require('chai').should()
 import { writeGame } from "../src"
 import { PgnReader} from "@mliebelt/pgn-reader";
@@ -117,6 +119,83 @@ describe("When writing results of games", function () {
         let res = parseWriteGameNoTags('e4 e5 1-0')
         should.equal(res, '1. e4 e5 1-0')
     })
+})
+
+describe("When writing tags of games", function () {
+    it("should allow standard tags and not writing them", function () {
+        let input:string =  '[Event "ChessDojo Open Classical - 2023-04"]\n' +
+            '  [Site "Chess.com"]\n' +
+            '  [Date "2023.04.27"]\n' +
+            '  [Round "15"]\n' +
+            '  [White "jenesuispasdave"]\n' +
+            '  [Black "factoryfreak"]\n' +
+            '  [Result "1-0"]\n' +
+            '  [WhiteElo "790"]\n' +
+            '  [BlackElo "873"]\n' +
+            '  [TimeControl "5400+30"]\n' +
+            '  [Termination "jenesuispasdave won by checkmate"]\n' +
+            '  [Annotator "jenesuispasdave"]\n' +
+            '  [UTCDate "2023.05.02"]\n' +
+            '  [UTCTime "02:06:08"]\n' +
+            '  [Variant "Standard"]\n' +
+            '  [ECO "C50"]\n' +
+            '  [Opening "Italian Game: Anti-Fried Liver Defense"]\n' +
+            '  [Source "https://lichess.org/study/tUmAdyQJ/80CyeGO8"]\n' +
+            '  [PlyCount "83"]\n' +
+            'e4 e5 Nf3 Nc6'
+        let res = parseWriteGameNoTags(input)
+        should.equal(res, '1. e4 e5 2. Nf3 Nc6 1-0')
+    })
+    it("should allow standard tags and writing them", function () {
+        let input:string =  '[Event "ChessDojo Open Classical - 2023-04"]\n' +
+            '  [Site "Chess.com"]\n' +
+            '  [Date "2023.04.27"]\n' +
+            '  [Round "15"]\n' +
+            '  [White "jenesuispasdave"]\n' +
+            '  [Black "factoryfreak"]\n' +
+            '  [Result "1-0"]\n' +
+            '  [WhiteElo "790"]\n' +
+            '  [BlackElo "873"]\n' +
+            '  [TimeControl "5400+30"]\n' +
+            '  [Termination "jenesuispasdave won by checkmate"]\n' +
+            '  [Annotator "jenesuispasdave"]\n' +
+            '  [UTCDate "2023.05.02"]\n' +
+            '  [UTCTime "02:06:08"]\n' +
+            '  [Variant "Standard"]\n' +
+            '  [ECO "C50"]\n' +
+            '  [Opening "Italian Game: Anti-Fried Liver Defense"]\n' +
+            '  [Source "https://lichess.org/study/tUmAdyQJ/80CyeGO8"]\n' +
+            '  [PlyCount "83"]\n' +
+            'e4 e5 Nf3 Nc6'
+        let res = parseWriteGame(input)
+        should.equal(res, '[Event "ChessDojo Open Classical - 2023-04"]\n' +
+            '[Site "Chess.com"]\n' +
+            '[Date "2023.04.27"]\n' +
+            '[Round "15"]\n' +
+            '[White "jenesuispasdave"]\n' +
+            '[Black "factoryfreak"]\n' +
+            '[Result "1-0"]\n' +
+            '[WhiteElo "790"]\n' +
+            '[BlackElo "873"]\n' +
+            '[TimeControl "5400+30"]\n' +
+            '[Termination "jenesuispasdave won by checkmate"]\n' +
+            '[Annotator "jenesuispasdave"]\n' +
+            '[UTCDate "2023.05.02"]\n' +
+            '[UTCTime "02:06:08"]\n' +
+            '[Variant "Standard"]\n' +
+            '[ECO "C50"]\n' +
+            '[Opening "Italian Game: Anti-Fried Liver Defense"]\n' +
+            '[Source "https://lichess.org/study/tUmAdyQJ/80CyeGO8"]\n' +
+            '[PlyCount "83"]\n' +
+            '\n' +
+            '1. e4 e5 2. Nf3 Nc6 1-0')
+    })
+    it('should allow writing single tags without values', function () {
+        let input = '[TimeControl "5400+30"]\n' +
+            'e4 e5'
+        let res = parseWriteGame(input)
+        should.equal(res, '[TimeControl "5400+30"]\n\n1. e4 e5')
+    });
 })
 
 describe("When using different configuration", function () {

@@ -200,6 +200,8 @@ const writePgn = function(game:PgnGame, configuration:PgnWriterConfiguration) {
                     } else { return }
                 } else if (typeof value === "object") {
                     _v = value.value
+                } else {
+                    _v = value
                 }
                 _sb.append('[').append(key).append(' ').append('"').append(_v).append('"').append("]\n")
             }
@@ -246,6 +248,9 @@ export class StringBuilder {
     }
     // Appends the given value to the end of this instance.
     append(value: string|any):StringBuilder {
+        if (! value) {
+            return this
+        }
         if (typeof value === "string") {
             this.strings.push(value)
         } else {
