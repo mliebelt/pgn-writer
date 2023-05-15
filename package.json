@@ -27,7 +27,7 @@
     "@mliebelt/pgn-types": "^1.0.4"
   },
   "devDependencies": {
-    "@mliebelt/pgn-reader": "1.2.22",
+    "@mliebelt/pgn-reader": "1.2.23",
     "@rollup/plugin-commonjs": "^25.0.0",
     "@rollup/plugin-node-resolve": "^15.0.0",
     "@types/chai": "^4.3.4",
