@@ -100,6 +100,13 @@ describe("When writing one game only", function () {
 
 })
 
+describe("When writing special cases like", function () {
+    it("should write discriminator when given in notation", function (){
+        let res = parseWriteGameNoTags('d4 d5 Nf3 Nc6 Nbd2')
+        should.exist(res)
+        should.equal(res, '1. d4 d5 2. Nf3 Nc6 3. Nbd2')
+    })
+})
 describe("When writing results of games", function () {
     it("should write result for empty game", function (){
         let res = parseWriteGameNoTags('')

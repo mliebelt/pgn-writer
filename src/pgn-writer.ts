@@ -113,7 +113,7 @@ const writePgn = function(game:PgnGame, configuration:PgnWriterConfiguration) {
                 return fig
             }
             let notation = move.notation;
-            if (typeof notation.row === 'undefined') {
+            if (notation.notation && configuration.notation != 'long') { // notation is filled, no need to try to compute it again
                 return notation.notation; // move like O-O and O-O-O
             }
             const fig = notation.fig ? getFig(notation.fig) : ''

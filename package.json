@@ -8,7 +8,7 @@
     "export",
     "writer"
   ],
-  "version": "1.0.3",
+  "version": "1.0.4",
   "homepage": "https://github.com/mliebelt/pgn-writer/blob/master/README.md",
   "bugs": "https://github.com/mliebelt/pgn-writer/issues",
   "main": "lib/index.umd.js",
