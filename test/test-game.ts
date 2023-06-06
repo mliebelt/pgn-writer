@@ -214,4 +214,10 @@ describe("When using different configuration", function () {
         let res = writeGame(game, noTags)
         should.equal(res, '1. e2-e4 e7-e5 2. Ng1-f3 Nb8-c6')
     })
+    it("should write long notation if requested (in using the reader)", function (){
+        let reader = new PgnReader({ pgn: 'e4 e5 Nf3 Nc6'})
+        let noTags:PgnWriterConfiguration = { tags: "no", notation: "long"}
+        let res = reader.writePgn(noTags)
+        should.equal(res, '1. e2-e4 e7-e5 2. Ng1-f3 Nb8-c6')
+    })
 })

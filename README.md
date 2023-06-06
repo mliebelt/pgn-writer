@@ -1,4 +1,10 @@
+![GitHub Workflow Status](https://github.com/mliebelt/pgn-writer/actions/workflows/nodejs.yml/badge.svg)
+![GitHub package.json version](https://img.shields.io/github/package-json/v/mliebelt/pgn-writer?color=33aa33&label=Version&logo=npm)
+![npm](https://img.shields.io/npm/dm/@mliebelt/pgn-writer?label=Downloads&logo=npm)
+![GitHub](https://img.shields.io/github/license/mliebelt/pgn-writer?label=License)
+
 # In a nutshell ...
+
 Provides base functionality (implemented in Javascript) to write PGN to a string. The input is the one produced by pgn-parser, and used as well by pgn-reader.
 
 # Goals
