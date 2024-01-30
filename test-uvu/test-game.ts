@@ -227,7 +227,7 @@ writingTagsSuite('should allow writing single tags without values', () => {
 
 writingTagsSuite.run()
 
-const differentConfigurationSuite = suite('When writing tags of games');
+const differentConfigurationSuite = suite('When using different configuration');
 differentConfigurationSuite('should write long notation if requested', () => {
     let reader = new PgnReader({ pgn: 'e4 e5 Nf3 Nc6'});
     let game:PgnGame = Object.assign({}, reader.games[0], { moves: reader.getMoves() }) as PgnGame
@@ -243,3 +243,5 @@ differentConfigurationSuite('should write long notation if requested (in using t
     let res = reader.writePgn(noTags);
     assert.equal(res, '1. e2-e4 e7-e5 2. Ng1-f3 Nb8-c6');
 });
+
+differentConfigurationSuite.run()
