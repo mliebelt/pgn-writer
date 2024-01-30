@@ -34,12 +34,14 @@
     "@types/mocha": "^10.0.1",
     "@types/node": "^20.1.0",
     "chai": "^4.3.7",
+    "esbuild": "^0.20.0",
     "mocha": "^10.2.0",
     "rollup": "^2.59.0",
     "rollup-plugin-dts": "^4.1.0",
     "ts-loader": "^9.2.6",
     "ts-node": "^10.4.0",
-    "typescript": "^4.4.4"
+    "typescript": "^4.4.4",
+    "uvu": "^0.5.6"
   },
   "scripts": {
     "clean": "rm -fr lib/*",
@@ -48,6 +50,7 @@
     "cjs": "tsc -p tsconfig.json",
     "umd": "rollup lib/mjs/index.js -c rollup.config.js -o lib/index.umd.js -f umd",
     "dts": "rollup -c rollup.config-dts.js",
-    "test": "mocha --require ts-node/register ./test/**/*.ts"
+    "test": "mocha --require ts-node/register ./test/**/*.ts",
+    "test:uvu": "uvu -r ts-node/register test-uvu"
   }
 }
