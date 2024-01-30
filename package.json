@@ -30,12 +30,8 @@
     "@mliebelt/pgn-reader": "1.2.25",
     "@rollup/plugin-commonjs": "^25.0.0",
     "@rollup/plugin-node-resolve": "^15.0.0",
-    "@types/chai": "^4.3.4",
-    "@types/mocha": "^10.0.1",
     "@types/node": "^20.1.0",
-    "chai": "^4.3.7",
     "esbuild": "^0.20.0",
-    "mocha": "^10.2.0",
     "rollup": "^2.59.0",
     "rollup-plugin-dts": "^4.1.0",
     "ts-loader": "^9.2.6",
@@ -50,7 +46,6 @@
     "cjs": "tsc -p tsconfig.json",
     "umd": "rollup lib/mjs/index.js -c rollup.config.js -o lib/index.umd.js -f umd",
     "dts": "rollup -c rollup.config-dts.js",
-    "test": "mocha --require ts-node/register ./test/**/*.ts",
-    "test:uvu": "uvu -r ts-node/register test-uvu"
+    "test": "uvu -r ts-node/register test"
   }
 }
