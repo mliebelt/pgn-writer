@@ -44,8 +44,8 @@
     "build": "npm run clean && npm run mjs && npm run umd && npm run dts",
     "mjs": "tsc -p tsconfig-mjs.json",
     "cjs": "tsc -p tsconfig.json",
-    "umd": "rollup lib/mjs/index.js -c rollup.config.js -o lib/index.umd.js -f umd",
-    "dts": "rollup -c rollup.config-dts.js",
+    "umd": "rollup lib/mjs/index.js -c rollup.config.mjs -o lib/index.umd.js -f umd",
+    "dts": "rollup -c rollup.config-dts.mjs",
     "test": "uvu -r ts-node/register test"
   }
 }
