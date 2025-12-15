@@ -30,7 +30,7 @@
     "@mliebelt/pgn-reader": "1.2.30",
     "@rollup/plugin-commonjs": "^29.0.0",
     "@rollup/plugin-node-resolve": "^16.0.0",
-    "@types/node": "^24.0.3",
+    "@types/node": "^25.0.2",
     "esbuild": "^0.27.0",
     "rollup": "^4.9.4",
     "rollup-plugin-dts": "^6.1.0",
