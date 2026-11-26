@@ -9,3 +9,9 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
+    ignore:
+      # TypeScript 7 removes the JS compiler API; rollup-plugin-dts (and
+      # likely ts-node) need it. Keep 6.x until the toolchain supports 7 -
+      # see the TS 7 migration notes in the PR for issue #356.
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
