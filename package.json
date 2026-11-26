@@ -15,7 +15,10 @@
   "module": "lib/index.umd.js",
   "types": "lib/index.umd.d.ts",
   "files": [
-    "README.md"
+    "README.md",
+    "LICENSE",
+    "lib/index.umd.js",
+    "lib/index.umd.d.ts"
   ],
   "author": "mliebelt",
   "license": "Apache-2.0",
