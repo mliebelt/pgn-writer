@@ -33,13 +33,13 @@
     "@mliebelt/pgn-reader": "1.2.30",
     "@rollup/plugin-commonjs": "^29.0.0",
     "@rollup/plugin-node-resolve": "^16.0.0",
-    "@types/node": "^25.0.2",
+    "@types/node": "^26.0.0",
     "esbuild": "^0.28.0",
     "rollup": "^4.9.4",
     "rollup-plugin-dts": "^6.1.0",
     "ts-loader": "^9.2.6",
     "ts-node": "^10.4.0",
-    "typescript": "^6.0.2",
+    "typescript": "^7.0.2",
     "uvu": "^0.5.6"
   },
   "scripts": {
